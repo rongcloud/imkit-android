@@ -13,14 +13,14 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
     }
-
+    
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
+    
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']
@@ -31,7 +31,7 @@ android {
 
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
-    api project(':lib')
+    api 'cn.rongcloud.sdk:im_lib:5.0.0'
     //基础布局
     implementation 'androidx.appcompat:appcompat:1.2.0'
     api 'androidx.fragment:fragment:1.2.5'
