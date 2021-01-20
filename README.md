@@ -7,13 +7,27 @@
 
 详细说明请参考 [SDK 源码集成方式说明](https://sealtalk-custom.rongcloud.net/v4/5X/views/im/ui/guide/quick/include/android.html#source)
 
+:::
+
+温馨提示：
+
+1.强烈不建议直接修改源码内容，防止后续源码升级将修改内容覆盖
+
+2.建议通过继承重写某些类与自身逻辑不一致的方法，来增加新方法以扩展自身的业务逻辑
+
+3.如果需要修改资源文件，建议将 SDK 里的资源文件拷贝到应用特定目录下，在 gradle 里配置优先使用特定目录下的资源文件即可。
+
+3.建议使用 SDK 对外暴露的接口，如果调用私有接口可能会出现版本升级引起私有接口变更
+
+:::
+
 ### 源码导读
 
 #### 整体架构
 
 IMKit 整体采用 MVVM 框架，依赖 androidx 组件，数据库部分由 Room 实现。
 
-![IMKit 架构](./images/IMKit 架构.png)
+![IMKit 架构](images/IMKit 架构.png)
 
 各层级详细说明如下：
 
@@ -38,40 +52,11 @@ IMKit 整体采用 MVVM 框架，依赖 androidx 组件，数据库部分由 Roo
 
 #####配置中心
 
-@startuml
-[RongConfigCenter] --> [FeatureConfig]
-[RongConfigCenter] --> [ConversationListConfig]
-[RongConfigCenter] --> [ConversationConfig]
-[ConversationConfig] --> [RongExtensionConfig]
-@enduml
+![config](/Users/jenny_zhou1980/Development/KitGitHub/imkit-android/images/config.svg)
 
 ##### 会话列表
 
-@startuml
-package "View 层" {
-[RongConversationListActivity] *-- [ConversationListFragment]
-
-package "展示模板" {
-[ConversationListFragment] *-- [IViewProvider]
- [BaseConversationProvider] ..|> [IViewProvider]
- [ConversationListEmptyProvider] ..|> [IViewProvider]
- [PrivateConversationProvider] --|> [BaseConversationProvider]
-}
-}
-[ConversationListFragment] <--> [ConversationListViewModel]
-
-database "Repository" {
-[ConversationListViewModel] <--> [BaseUiConversation]
-[BaseUiConversation] <--> [IMCenter]
-[BaseUiConversation] <--> [RongUserInfoManager]
-
-package "model" {
- [BaseUiConversation] <|-- [SingleConversation] 
- [BaseUiConversation]  <|-- [GroupConversation] 
- [BaseUiConversation]  <|-- [GatheredConversation]
- }
-}
-@enduml
+![conversationlist](/Users/jenny_zhou1980/Development/KitGitHub/imkit-android/images/conversationlist.svg)
 
 ##### 会话页面
 
@@ -79,79 +64,11 @@ package "model" {
 
 消息列表组件：
 
-@startuml
-package "View 层" {
-[RongConversationActivity] *-- [ConversationFragment]
-[ConversationFragment] *-- [RongExtension]
-package "UI 渲染器" {
-[ConversationFragment] *-- [IConversationUIRenderer]
-[LocationUiRender] ..|> [IConversationUIRenderer]
-[CSConversationUIRenderer] ..|> [IConversationUIRenderer]
-}
-
-package "消息展示模板" {
-[ConversationFragment] *-- [IMessageProvider]
- [BaseMessageItemProvider] ..|> [IMessageProvider]
- [BaseNotificationMessageItemProvider] ..|> [IMessageProvider]
- [TextMessageItemProvider] ..|> [BaseMessageItemProvider]
- [ImageMessageItemProvider] ..|> [BaseMessageItemProvider]
- [...] ..|> [BaseMessageItemProvider]
-}
-}
-
-
-[ConversationFragment] <--> [RongExtensionViewModel]
-[RongExtension] <--> [RongExtensionViewModel]
-
-package "ViewModel 层" {
-[ConversationFragment] <--> [MessageListViewModel]
-package "业务处理器" {
-[MessageListViewModel] <--> [BaseBusinessProcessor]
-[PrivateBusinessProcessor] --|> [BaseBusinessProcessor]
-[GroupBusinessProcessor] --|> [BaseBusinessProcessor]
-[....] --|> [BaseBusinessProcessor]
-}
-}
-
-database "数据仓库"{
-[BaseBusinessProcessor] <--> [UiMessasge]
-[UiMessasge] <--> [IMCenter]
-[UiMessasge] <--> [RongUserInfoManager]
-}
-@enduml
+![messagelist](/Users/jenny_zhou1980/Development/KitGitHub/imkit-android/images/messagelist.svg)
 
 输入扩展栏：
 
-@startuml
-package "View 层" {
-[RongExtension] *-- [InputPanelContainer]
-[RongExtension] *-- [BoardContainer]
-[RongExtension] *-- [AttatchInfoContainer]
-[InputPanelContainer] o-- [InputPanel]
-[InputPanelContainer] o-- [DestructInputPanel]
-[BoardContainer] o-- [EmoticonBoard]
-[BoardContainer] o-- [PluginBoard]
-[AttatchInfoContainer] o-- [MoreInputPanel]
-[AttatchInfoContainer] o-- [ReferenceView]
-[AttatchInfoContainer] o-- [QuickReplyButton]
-}
-
-[EmoticonBoard] --> [RongExtensionManager]
-[PluginBoard] --> [RongExtensionManager]
-
-[RongExtension] <--> [RongExtensionViewModel]
-database "数据仓库" {
-[RongExtensionViewModel] <--> [RongExtensionManager]
-[RongExtensionManager] *-- [IExtensionModule]
-[IExtensionModule] <|.. [SigntExtensionModule]
-[IExtensionModule] <|.. [ForwardExtensionModule]
-[IExtensionModule] <|.. [...]
-
-[RongExtensionManager] *-- [IExtensionConfig]
-[IExtensionConfig] <|.. [DefaultExtensionConfig]
-[DefaultExtensionConfig] <|-- [CustomExtensionConfig]
-}
-@enduml
+![extension](/Users/jenny_zhou1980/Development/KitGitHub/imkit-android/images/extension.svg)
 
 ####扩展功能说明
 
