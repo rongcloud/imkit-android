@@ -27,7 +27,7 @@
 
 IMKit 整体采用 MVVM 框架，依赖 androidx 组件，数据库部分由 Room 实现。
 
-![IMKit 架构](./images/IMKit 架构.png)
+![image](./images/imkit.png)
 
 各层级详细说明如下：
 
@@ -52,11 +52,11 @@ IMKit 整体采用 MVVM 框架，依赖 androidx 组件，数据库部分由 Roo
 
 ##### 配置中心
 
-![config](./images/config.svg)
+![image](./images/config.svg)
 
 ##### 会话列表
 
-![conversationlist](./images/conversationlist.svg)
+![image](./images/conversationlist.svg)
 
 ##### 会话页面
 
@@ -64,11 +64,11 @@ IMKit 整体采用 MVVM 框架，依赖 androidx 组件，数据库部分由 Roo
 
 消息列表组件：
 
-![messagelist](./images/messagelist.svg)
+![image](./images/messagelist.svg)
 
 输入扩展栏：
 
-![extension](./images/extension.svg)
+![image](./images/extension.svg)
 
 #### 扩展功能说明
 
