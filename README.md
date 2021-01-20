@@ -1,7 +1,7 @@
 # IMKit-Android
 本项目是融云 IMKit SDK 组件的开源代码，IMKit SDK 是对融云 IM 即时通讯能力在 UI 界面的封装，方便开发者快速实现自己的产品，主要特点是支持快速集成，提供丰富的界面定制功能。
 
-###使用说明
+### 使用说明
 
 本项目提供的是 library 组件，需要将 'kit' 部分源码集成到您的工程里方可运行。
 
@@ -27,7 +27,7 @@
 
 IMKit 整体采用 MVVM 框架，依赖 androidx 组件，数据库部分由 Room 实现。
 
-![IMKit 架构](images/IMKit 架构.png)
+![IMKit 架构](./images/IMKit 架构.png)
 
 各层级详细说明如下：
 
@@ -50,13 +50,13 @@ IMKit 整体采用 MVVM 框架，依赖 androidx 组件，数据库部分由 Roo
 
 #### 基础模块架构
 
-#####配置中心
+##### 配置中心
 
-![config](/Users/jenny_zhou1980/Development/KitGitHub/imkit-android/images/config.svg)
+![config](./images/config.svg)
 
 ##### 会话列表
 
-![conversationlist](/Users/jenny_zhou1980/Development/KitGitHub/imkit-android/images/conversationlist.svg)
+![conversationlist](./images/conversationlist.svg)
 
 ##### 会话页面
 
@@ -64,19 +64,19 @@ IMKit 整体采用 MVVM 框架，依赖 androidx 组件，数据库部分由 Roo
 
 消息列表组件：
 
-![messagelist](/Users/jenny_zhou1980/Development/KitGitHub/imkit-android/images/messagelist.svg)
+![messagelist](./images/messagelist.svg)
 
 输入扩展栏：
 
-![extension](/Users/jenny_zhou1980/Development/KitGitHub/imkit-android/images/extension.svg)
+![extension](./images/extension.svg)
 
-####扩展功能说明
+#### 扩展功能说明
 
 IMKit 里包含了很多扩展功能，如转发、@功能、快捷回复等，这些扩展功能通过监听基础模块的事件和对基础模块的容器进行操作而实现，各基础模块对扩展功能没有强耦合关系。
 
 扩展功能详细列表请参考下面目录结构 feature 文件夹下的说明。
 
-####目录结构说明
+#### 目录结构说明
 
 ├── IMCenter.java  (IM 核心类)
 ├── RongIM.java   (兼容老版本保留类)
