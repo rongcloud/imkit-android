@@ -77,6 +77,7 @@ IMKit 里包含了很多扩展功能，如转发、@功能、快捷回复等，�
 扩展功能详细列表请参考下面目录结构 feature 文件夹下的说明。
 
 #### 目录结构说明
+```
 ├── IMCenter.java  (IM 核心类)  
 ├── RongIM.java   (兼容老版本保留类)  
 ├── activity (SDK 内部 activity)  
@@ -144,3 +145,4 @@ IMKit 里包含了很多扩展功能，如转发、@功能、快捷回复等，�
 ├── userinfo  (用户信息相关类)  
 ├── utils  (帮助类)  
 └── widget  
+```
