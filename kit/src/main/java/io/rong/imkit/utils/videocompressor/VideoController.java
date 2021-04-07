@@ -20,9 +20,14 @@ import io.rong.imkit.utils.videocompressor.videoslimmer.listner.SlimProgressList
 public class VideoController {
     private final static String TAG = VideoController.class.getSimpleName();
 
+    private VideoController() {
+
+    }
+
     private static class SingletonHolder {
         static VideoController sInstance = new VideoController();
     }
+
     public static VideoController getInstance() {
         return SingletonHolder.sInstance;
     }

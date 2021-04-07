@@ -1,6 +1,5 @@
 package io.rong.imkit.conversationlist;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -11,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -60,6 +60,10 @@ public class ConversationListFragment extends Fragment implements BaseAdapter.On
     protected SmartRefreshLayout mRefreshLayout;
     protected Handler mHandler = new Handler(Looper.getMainLooper());
 
+    {
+        mAdapter = onResolveAdapter();
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +80,7 @@ public class ConversationListFragment extends Fragment implements BaseAdapter.On
         super.onViewCreated(view, savedInstanceState);
         mList = view.findViewById(R.id.rc_conversation_list);
         mRefreshLayout = view.findViewById(R.id.rc_refresh);
-        mAdapter = onResolveAdapter(view.getContext());
+
         mAdapter.setItemClickListener(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mList.setLayoutManager(layoutManager);
@@ -134,11 +138,11 @@ public class ConversationListFragment extends Fragment implements BaseAdapter.On
     /**
      * 获取 adapter. 可复写此方法实现自定义 adapter.
      *
-     * @param context 上下文
      * @return 会话列表 adapter
      */
-    protected ConversationListAdapter onResolveAdapter(Context context) {
+    protected ConversationListAdapter onResolveAdapter() {
         mAdapter = new ConversationListAdapter();
+        mAdapter.setEmptyView(R.layout.rc_conversationlist_empty_view);
         return mAdapter;
     }
 
@@ -292,5 +296,33 @@ public class ConversationListFragment extends Fragment implements BaseAdapter.On
         } else {
             mNoticeContainerView.setVisibility(View.GONE);
         }
+    }
+
+    /**
+     * @param view 自定义列表 header view
+     */
+    public void addHeaderView(View view) {
+        mAdapter.addHeaderView(view);
+    }
+
+    /**
+     * @param view 自定义列表 footer view
+     */
+    public void addFooterView(View view) {
+        mAdapter.addFootView(view);
+    }
+
+    /**
+     * @param view 自定义列表 空数据 view
+     */
+    public void setEmptyView(View view) {
+        mAdapter.setEmptyView(view);
+    }
+
+    /**
+     * @param emptyId 自定义列表 空数据的 LayoutId
+     */
+    public void setEmptyView(@LayoutRes int emptyId) {
+        mAdapter.setEmptyView(emptyId);
     }
 }

@@ -1645,7 +1645,7 @@ public class SubsamplingScaleImageView extends View {
                 sTileHeight = sHeight() / yTiles;
                 subTileHeight = sTileHeight / sampleSize;   //计算抽样后的实际像素
             }
-            Log.i("initialiseTileMap", " 计算后的 " + "xTiles = " + xTiles + " yTiles = " + yTiles + " sTileWidth = " + sTileWidth + " sTileHeight= " + sTileHeight);
+            Log.i("initialiseTileMap", "xTiles = " + xTiles + " yTiles = " + yTiles + " sTileWidth = " + sTileWidth + " sTileHeight= " + sTileHeight);
             List<Tile> tileGrid = new ArrayList<>(xTiles * yTiles);
             for (int x = 0; x < xTiles; x++) {
                 for (int y = 0; y < yTiles; y++) {
@@ -1668,8 +1668,7 @@ public class SubsamplingScaleImageView extends View {
             if (sampleSize == 1) {
                 break;
             } else {
-                Log.i("initialiseTileMap", "----------------------------------------------");
-                Log.i("initialiseTileMap", " 加大抽样率");
+                Log.i("initialiseTileMap", " sampleSize = " + sampleSize);
                 sampleSize /= 2; //加大抽样率
             }
         }

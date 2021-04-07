@@ -235,7 +235,7 @@ public class MessageItemLongClickActionManager {
                                     .setCancelable(false)
                                     .create()
                                     .show();
-                            RLog.e(TAG, "撤回消息失败");
+                            RLog.e(TAG, "Failed to withdraw message");
                         }
                         return true;
                     }

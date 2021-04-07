@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -64,7 +65,7 @@ public class ConversationListViewModel extends AndroidViewModel {
     protected int mSizePerPage;
     protected long mLastSyncTime;
     protected Application mApplication;
-    protected List<BaseUiConversation> mUiConversationList = new ArrayList<>();
+    protected CopyOnWriteArrayList<BaseUiConversation> mUiConversationList = new CopyOnWriteArrayList<>();
     protected MediatorLiveData<List<BaseUiConversation>> mConversationListLiveData;
     private MutableLiveData<ConnectionStatus> mConnectionStatusLiveData = new MutableLiveData<>();
     private MutableLiveData<NoticeContent> mNoticeContentLiveData = new MutableLiveData<>();
@@ -310,7 +311,8 @@ public class ConversationListViewModel extends AndroidViewModel {
     // 1. 首先是top会话，按时间顺序排列。
     // 2. 然后非top会话也是按时间排列。
     protected void sort() {
-        Collections.sort(mUiConversationList, new Comparator<BaseUiConversation>() {
+        List temp = Arrays.asList(mUiConversationList.toArray());
+        Collections.sort(temp, new Comparator<BaseUiConversation>() {
             @Override
             public int compare(BaseUiConversation o1, BaseUiConversation o2) {
                 if (o1.mCore.isTop() && o2.mCore.isTop() || !o1.mCore.isTop() && !o2.mCore.isTop()) {
@@ -329,6 +331,8 @@ public class ConversationListViewModel extends AndroidViewModel {
                 return 0;
             }
         });
+        mUiConversationList.clear();
+        mUiConversationList.addAll(temp);
     }
 
     protected BaseUiConversation findConversationFromList(Conversation.ConversationType conversationType, String targetId, boolean isGathered) {
@@ -440,17 +444,15 @@ public class ConversationListViewModel extends AndroidViewModel {
         @Override
         public void onClearConversations(Conversation.ConversationType... conversationTypes) {
             RLog.d(TAG, "onClearConversations");
-            List<Conversation.ConversationType> list = Arrays.asList(conversationTypes);
-            for (int index = 0; index < mUiConversationList.size(); index++) {
-                if (list.contains(mUiConversationList.get(index).mCore.getConversationType())) {
-                    try {
-                        mUiConversationList.remove(index);
-                    } catch (Exception e) {
-                        RLog.e(TAG, "onClearConversations", e);
-                    }
+            List<Conversation.ConversationType> clearedTypes = Arrays.asList(conversationTypes);
+            Iterator<BaseUiConversation> iterator = mUiConversationList.iterator();
+            while (iterator.hasNext()) {
+                BaseUiConversation item = iterator.next();
+                if (clearedTypes.contains(item.mCore.getConversationType())) {
+                        mUiConversationList.remove(item);
                 }
             }
-            mConversationListLiveData.setValue(mUiConversationList);
+            mConversationListLiveData.postValue(mUiConversationList);
         }
     };
     private MessageEventListener mMessageEventListener = new MessageEventListener() {

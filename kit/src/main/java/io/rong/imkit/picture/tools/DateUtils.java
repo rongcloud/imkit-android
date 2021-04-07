@@ -70,6 +70,6 @@ public class DateUtils {
      */
     public String cdTime(long sTime, long eTime) {
         long diff = eTime - sTime;
-        return diff > 1000 ? diff / 1000 + "秒" : diff + "毫秒";
+        return diff > 1000 ? diff / 1000 + "s" : diff + "ms";
     }
 }

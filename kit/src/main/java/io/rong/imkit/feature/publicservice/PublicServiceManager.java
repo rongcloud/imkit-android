@@ -17,7 +17,7 @@ public class PublicServiceManager {
     private PublicServiceExtensionModule mExtensionModule;
     private PublicServiceBehaviorListener mPubBehaviorListener;
 
-    public PublicServiceManager() {
+    private PublicServiceManager() {
         mCache = new RongCache<>(MAX_SIZE);
         mExtensionModule = new PublicServiceExtensionModule();
     }

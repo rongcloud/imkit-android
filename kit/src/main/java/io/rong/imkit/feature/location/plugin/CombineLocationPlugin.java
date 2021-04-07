@@ -158,7 +158,7 @@ public class CombineLocationPlugin implements IPluginModule, IPluginRequestPermi
     public boolean onRequestPermissionResult(Fragment fragment, final RongExtension extension, int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_CODE_FOREGROUND_PERMISSION_PLUGIN) {
             if (PermissionCheckUtil.checkPermissions(fragment.getActivity(), permissions)) {
-                new AlertDialog.Builder(fragment.getActivity()).setMessage(fragment.getResources().getString(R.string.rc_permission_background_location_grant_tip)).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                new AlertDialog.Builder(fragment.getActivity()).setMessage(fragment.getResources().getString(R.string.rc_permission_background_location_grant_tip)).setPositiveButton(R.string.rc_dialog_ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         extension.requestPermissionForPluginResult(new String[]{Manifest.permission.ACCESS_BACKGROUND_LOCATION},

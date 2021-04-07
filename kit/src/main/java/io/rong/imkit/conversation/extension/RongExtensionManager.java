@@ -34,6 +34,10 @@ public class RongExtensionManager {
     private static List<IExtensionEventWatcher> mExtensionEventWatcher = new CopyOnWriteArrayList<>();
     private static IExtensionConfig mExtensionConfig;
 
+    private RongExtensionManager() {
+
+    }
+
     private static class SingletonHolder {
         static RongExtensionManager sInstance = new RongExtensionManager();
     }

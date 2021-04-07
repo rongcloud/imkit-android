@@ -25,9 +25,7 @@ import java.util.HashMap;
 
 import io.rong.common.RLog;
 import io.rong.imkit.IMCenter;
-
 import io.rong.imkit.R;
-import io.rong.imkit.config.FeatureConfig;
 import io.rong.imkit.config.RongConfigCenter;
 import io.rong.imkit.conversation.RongConversationActivity;
 import io.rong.imkit.userinfo.RongUserInfoManager;
@@ -57,11 +55,15 @@ public class RongNotificationManager {
     private boolean isQuietSettingSynced = false;
     private String mQuietStartTime;  //通知免打扰起始时间
     private int mQuietSpanTime; //通知免打扰间隔时间
-    private int mNotificationId = 1000;
+    private int mNotificationId = 10000;
     private long mLastSoundTime = 0;
     private Activity mTopForegroundActivity;
     private static boolean mIsInForeground;
     private HashMap<Integer, Integer> notificationCache;
+
+    private RongNotificationManager() {
+
+    }
 
     private static class SingletonHolder {
         static RongNotificationManager sInstance = new RongNotificationManager();
@@ -89,6 +91,7 @@ public class RongNotificationManager {
         IMCenter.getInstance().addOnReceiveMessageListener(new RongIMClient.OnReceiveMessageWrapperListener() {
             @Override
             public boolean onReceived(final Message message, int left, boolean hasPackage, boolean offline) {
+                RLog.d(TAG,"onReceived. uid:" + message.getUId() + "; offline:" + offline);
                 if (!isReceivedFiltered(message, left, hasPackage, offline)) {
                     //高优先级消息不受免打扰和会话通知状态控制
                     if (isHighPriorityMessage(message)) {

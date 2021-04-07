@@ -6,11 +6,9 @@ import java.util.List;
 
 
 public class ProviderManager<T> {
-    private final int EMPTY_ITEM_VIEW_TYPE = -100;
-    private final int DEFAULT_ITEM_VIEW_TYPE = -200;
+    private final int DEFAULT_ITEM_VIEW_TYPE = -100;
     private SparseArrayCompat<IViewProvider<T>> mProviders = new SparseArrayCompat<>();
     private IViewProvider<T> mDefaultProvider;
-    private IViewProvider<T> mEmptyViewProvider;
 
     public ProviderManager() {
         mDefaultProvider = new DefaultProvider();
@@ -52,18 +50,8 @@ public class ProviderManager<T> {
         mDefaultProvider = defaultProvider;
     }
 
-    /**
-     * 设置 list 为空时的展示模板。
-     *
-     * @param emptyViewProvider 空模板展示类
-     */
-    public void setEmptyViewProvider(IViewProvider<T> emptyViewProvider) {
-        mEmptyViewProvider = emptyViewProvider;
-    }
 
-    public IViewProvider<T> getEmptyViewProvider() {
-        return mEmptyViewProvider;
-    }
+
 
     public void removeProvider(IViewProvider<T> provider) {
         if (provider == null) {
@@ -122,11 +110,6 @@ public class ProviderManager<T> {
         }
         return DEFAULT_ITEM_VIEW_TYPE;
     }
-
-    public int getEmptyItemViewType() {
-        return EMPTY_ITEM_VIEW_TYPE;
-    }
-
 
     public IViewProvider<T> getProvider(T item) {
         for (int i = 0; i < mProviders.size(); i++) {

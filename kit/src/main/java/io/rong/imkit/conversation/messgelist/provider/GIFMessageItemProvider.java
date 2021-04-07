@@ -144,9 +144,16 @@ public class GIFMessageItemProvider extends BaseMessageItemProvider<GIFMessage> 
             } else {
                 // 下载的时候
                 if (progress > 0 && progress < 100) {
+                    loadingProgress.setVisibility(View.VISIBLE);
+                    loadingProgress.setProgress(progress, true);
                     holder.setVisible(R.id.rc_start_download, false);
                     holder.setVisible(R.id.rc_length, true);
                     holder.setText(R.id.rc_length, formatSize(gifMessage.getGifDataSize()));
+                } else if (progress == 100) {
+                    loadingProgress.setVisibility(View.GONE);
+                    holder.setVisible(R.id.rc_pre_progress, false);
+                    holder.setVisible(R.id.rc_length, false);
+                    holder.setVisible(R.id.rc_start_download, false);
                 } else if (progress != -1) {
                     // 显示图片下载的界面
                     holder.setVisible(R.id.rc_start_download, true);
@@ -303,8 +310,7 @@ public class GIFMessageItemProvider extends BaseMessageItemProvider<GIFMessage> 
 
     @Override
     protected boolean onItemLongClick(ViewHolder holder, GIFMessage gifMessage, UiMessage uiMessage, int position, List<UiMessage> list, IViewProviderListener<UiMessage> listener) {
-        if (holder.getView(R.id.rc_start_download).getVisibility() == View.VISIBLE
-                || holder.getView(R.id.rc_download_failed).getVisibility() == View.VISIBLE
+        if (holder.getView(R.id.rc_download_failed).getVisibility() == View.VISIBLE
                 || holder.getView(R.id.rc_pre_progress).getVisibility() == View.VISIBLE) {
             return true;
         }

@@ -481,7 +481,7 @@ public class ReferenceMessageItemProvider extends BaseMessageItemProvider<Refere
 
         public OnGlobalLayoutListenerByEllipsize(TextView textView, int maxLines) {
             if (maxLines <= 0) {
-                throw new IllegalArgumentException("maxLines不能小于等于0");
+                throw new IllegalArgumentException("MaxLines cannot be less than or equal to 0");
             }
             this.textView = textView;
             this.maxLines = maxLines;

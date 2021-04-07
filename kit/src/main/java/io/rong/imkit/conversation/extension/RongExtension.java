@@ -148,6 +148,9 @@ public class RongExtension extends LinearLayout {
      * ConversationFragment onResume() 时的生命周期回调。
      */
     public void onResume() {
+        if (mExtensionViewModel == null) {
+            return;
+        }
         final EditText editText = mExtensionViewModel.getEditTextWidget();
         if (editText != null && (editText.getText().length() > 0 || editText.isFocused())) {
             this.postDelayed(new Runnable() {

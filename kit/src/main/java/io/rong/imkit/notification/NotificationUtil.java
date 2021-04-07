@@ -28,7 +28,12 @@ public class NotificationUtil {
     private final String TAG = NotificationUtil.class.getSimpleName();
     private final String CHANNEL_ID = "rc_notification_id";
     private final int SOUND_INTERVAL = 3000;
-    private long  mLastSoundTime;
+    private long mLastSoundTime;
+
+    private NotificationUtil() {
+
+    }
+
     private static class SingletonHolder {
         static NotificationUtil sInstance = new NotificationUtil();
     }
@@ -60,6 +65,7 @@ public class NotificationUtil {
                 nm.createNotificationChannel(channel);
             }
             if (notification != null) {
+                RLog.d(TAG,"notify for local notification");
                 nm.notify(notificationId, notification);
             }
         }
@@ -72,7 +78,7 @@ public class NotificationUtil {
         NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, channelName, importance);
         notificationChannel.enableLights(true);
         notificationChannel.setLightColor(Color.GREEN);
-        if(System.currentTimeMillis() - mLastSoundTime < SOUND_INTERVAL) {
+        if (System.currentTimeMillis() - mLastSoundTime < SOUND_INTERVAL) {
             notificationChannel.enableLights(true);
             notificationChannel.enableVibration(false);
         }
@@ -126,7 +132,7 @@ public class NotificationUtil {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             builder.setChannelId(CHANNEL_ID);
         } else {
-            if(System.currentTimeMillis() - mLastSoundTime >= SOUND_INTERVAL) {
+            if (System.currentTimeMillis() - mLastSoundTime >= SOUND_INTERVAL) {
                 builder.setDefaults(defaults);
             } else {
                 builder.setDefaults(Notification.DEFAULT_LIGHTS);

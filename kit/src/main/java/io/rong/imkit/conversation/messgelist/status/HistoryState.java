@@ -7,6 +7,7 @@ import java.util.List;
 import io.rong.imkit.conversation.messgelist.viewmodel.MessageViewModel;
 import io.rong.imkit.event.Event;
 import io.rong.imkit.event.uievent.ScrollEvent;
+import io.rong.imkit.event.uievent.ScrollToEndEvent;
 import io.rong.imkit.event.uievent.SmoothScrollEvent;
 import io.rong.imkit.model.UiMessage;
 import io.rong.imkit.utils.RouteUtils;
@@ -120,7 +121,7 @@ public class HistoryState implements IMessageState {
                     } else {
                         viewModel.onReloadMessage(messages.subList(0, DEFAULT_COUNT));
                     }
-                    viewModel.executePageEvent(new SmoothScrollEvent(viewModel.getUiMessages().size() - 1));
+                    viewModel.executePageEvent(new ScrollToEndEvent());
                 }
                 viewModel.setState(IMessageState.normalState);
                 viewModel.updateUiMessages();

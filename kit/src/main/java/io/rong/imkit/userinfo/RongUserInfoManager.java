@@ -46,7 +46,7 @@ public class RongUserInfoManager {
         return SingleTonHolder.sInstance;
     }
 
-    RongUserInfoManager() {
+    private RongUserInfoManager() {
         mUserDataDelegate = new UserDataDelegate();
         mUserDataObservers = new ArrayList<>();
         mAllUsers = new MediatorLiveData<>();

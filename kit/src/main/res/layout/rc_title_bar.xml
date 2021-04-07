@@ -70,7 +70,7 @@
         style="@style/TextStyle.Alignment"
         android:layout_width="110dp"
         android:layout_height="match_parent"
-        android:gravity="center_vertical"
+        android:gravity="center_vertical|end"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
         android:scaleType="center"

@@ -54,7 +54,7 @@ public class ConversationListConfig {
         providerList.add(new PrivateConversationProvider());
         //        providerList.add(new GatheredConversationProvider());
         mProviderManager = new ProviderManager<>(providerList);
-        mProviderManager.setEmptyViewProvider(new ConversationListEmptyProvider());
+        //mProviderManager.setEmptyViewProvider(new ConversationListEmptyProvider());
         mProviderManager.setDefaultProvider(new BaseConversationProvider());
     }
 

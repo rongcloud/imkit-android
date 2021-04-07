@@ -8,6 +8,7 @@ import io.rong.imkit.config.RongConfigCenter;
 import io.rong.imkit.conversation.messgelist.viewmodel.MessageViewModel;
 import io.rong.imkit.event.Event;
 import io.rong.imkit.event.uievent.ScrollEvent;
+import io.rong.imkit.event.uievent.ScrollToEndEvent;
 import io.rong.imkit.event.uievent.SmoothScrollEvent;
 import io.rong.imkit.model.UiMessage;
 import io.rong.imkit.widget.refresh.constant.RefreshState;
@@ -175,13 +176,13 @@ public class NormalState implements IMessageState {
             //判断ui是否滑动到底部
             if (RongConfigCenter.conversationConfig().isShowNewMessageBar(viewModel.getCurConversationType())) {
                 if (viewModel.isScrollToBottom()) {
-                    viewModel.executePostPageEvent(new SmoothScrollEvent(viewModel.getUiMessages().size() - 1));
+                    viewModel.executePostPageEvent(new ScrollToEndEvent());
                 } else {
                     viewModel.processNewMessageUnread(false);
                 }
             }
         } else {
-            viewModel.executePostPageEvent(new SmoothScrollEvent(viewModel.getUiMessages().size() - 1));
+            viewModel.executePostPageEvent(new ScrollToEndEvent());
         }
 
     }
@@ -189,7 +190,7 @@ public class NormalState implements IMessageState {
     @Override
     public void onNewMessageBarClick(MessageViewModel viewModel) {
         viewModel.cleanUnreadNewCount();
-        viewModel.executePageEvent(new SmoothScrollEvent(viewModel.getUiMessages().size() - 1));
+        viewModel.executePageEvent(new ScrollToEndEvent());
     }
 
     @Override

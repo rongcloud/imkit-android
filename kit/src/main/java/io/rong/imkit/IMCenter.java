@@ -68,6 +68,9 @@ public class IMCenter {
     private List<RongIMClient.SyncConversationReadStatusListener> mSyncConversationReadStatusListeners = new CopyOnWriteArrayList<>();
     private List<RongIMClient.TypingStatusListener> mTypingStatusListeners = new CopyOnWriteArrayList<>();
 
+    private IMCenter() {
+
+    }
 
     private static class SingletonHolder {
         static IMCenter sInstance = new IMCenter();
@@ -1554,12 +1557,10 @@ public class IMCenter {
     }
 
     public void addMessageEventListener(MessageEventListener listener) {
-        Log.d("yuto", "listener is" + listener.toString());
         mMessageEventListeners.add(listener);
     }
 
     public void removeMessageEventListener(MessageEventListener listener) {
-        Log.d("yuto", "listener is" + listener.toString());
         mMessageEventListeners.remove(listener);
     }
 

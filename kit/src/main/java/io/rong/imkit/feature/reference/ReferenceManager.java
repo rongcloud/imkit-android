@@ -95,7 +95,7 @@ public class ReferenceManager implements IExtensionModule, IExtensionEventWatche
                         return false;
                     }
                     Message message = uiMessage.getMessage();
-                    boolean isSuccess = message.getSentStatus() != Message.SentStatus.FAILED && message.getSentStatus() != Message.SentStatus.SENDING;
+                    boolean isSuccess = message.getSentStatus() != Message.SentStatus.CANCELED && message.getSentStatus() != Message.SentStatus.FAILED && message.getSentStatus() != Message.SentStatus.SENDING;
                     boolean forbidConversationType = message.getConversationType().equals(Conversation.ConversationType.ENCRYPTED)
                             || message.getConversationType().equals(Conversation.ConversationType.APP_PUBLIC_SERVICE)
                             || message.getConversationType().equals(Conversation.ConversationType.PUBLIC_SERVICE)

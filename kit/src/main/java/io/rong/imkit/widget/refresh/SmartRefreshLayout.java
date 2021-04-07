@@ -321,7 +321,7 @@ public class SmartRefreshLayout extends ViewGroup implements RefreshLayout, Nest
         super.onFinishInflate();
         final int count = super.getChildCount();
         if (count > 3) {
-            throw new RuntimeException("最多只支持3个子View，Most only support three sub view");
+            throw new RuntimeException("Most only support three sub view");
         }
 
         int contentLevel = 0;
@@ -1688,11 +1688,6 @@ public class SmartRefreshLayout extends ViewGroup implements RefreshLayout, Nest
          * 3.修改源码
          *          源码引用，然后删掉下面4行的代码
          */
-        if (spinner > mScreenHeightPixels * 5 && (thisView.getTag() == null && thisView.getTag(R.id.srl_tag) == null) && mLastTouchY < mScreenHeightPixels / 6f && mLastTouchX < mScreenHeightPixels / 16f) {
-            String egg = "你这么死拉，臣妾做不到啊！";
-            Toast.makeText(thisView.getContext(), egg, Toast.LENGTH_SHORT).show();
-            thisView.setTag(R.id.srl_tag, egg);
-        }
         if (mState == RefreshState.TwoLevel && spinner > 0) {
             mKernel.moveSpinner(Math.min((int) spinner, thisView.getMeasuredHeight()), true);
         } else if (mState == RefreshState.Refreshing && spinner >= 0) {
@@ -2924,7 +2919,7 @@ public class SmartRefreshLayout extends ViewGroup implements RefreshLayout, Nest
                     }
                 } else {
                     mFooterNoMoreDataEffective = false;
-                    String msg = "Footer:" + mRefreshFooter + " NoMoreData is not supported.(不支持NoMoreData，请使用[ClassicsFooter]或者[自定义Footer并实现setNoMoreData方法且返回true])";
+                    String msg = "Footer:" + mRefreshFooter + " NoMoreData is not supported.";
                     Throwable e = new RuntimeException(msg);
                     e.printStackTrace();
                 }

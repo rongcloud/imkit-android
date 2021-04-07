@@ -48,6 +48,10 @@ public class RongIM {
     private final static String TAG = RongIM.class.getSimpleName();
     static RongIMClient.OnReceiveMessageListener sMessageListener;
 
+    private RongIM() {
+
+    }
+
     private static class SingletonHolder {
         static RongIM sInstance = new RongIM();
     }
@@ -404,7 +408,7 @@ public class RongIM {
      * @discussion 连接成功后，SDK 将接管所有的重连处理。当因为网络原因断线的情况下，SDK 会不停重连直到连接成功为止，不需要您做额外的连接操作。
      */
     public static void connect(String token, int timeLimit,
-                        final RongIMClient.ConnectCallback connectCallback) {
+                               final RongIMClient.ConnectCallback connectCallback) {
         IMCenter.getInstance().connect(token, timeLimit, connectCallback);
     }
 
@@ -548,9 +552,10 @@ public class RongIM {
      * @param listener 接收消息的监听器。
      */
     public static void removeOnReceiveMessageListener(RongIMClient.OnReceiveMessageWrapperListener
-                                                              listener){
+                                                              listener) {
         IMCenter.getInstance().removeOnReceiveMessageListener(listener);
     }
+
     /**
      * 设置连接状态变化的监听器。
      *

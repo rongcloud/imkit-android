@@ -1,7 +1,10 @@
 package io.rong.imkit.conversation;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListUpdateCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.rong.imkit.config.RongConfigCenter;
@@ -17,10 +20,40 @@ public class MessageListAdapter extends BaseAdapter<UiMessage> {
 
     @Override
     public void setDataCollection(List<UiMessage> data) {
-        mDiffCallback.setNewList(data);
-        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(mDiffCallback, false);
-        super.setDataCollection(data);
-        diffResult.dispatchUpdatesTo(this);
+        if (data == null) {
+            data = new ArrayList<>();
+        }
+        //当有空布局的时候，需要全部刷新
+        if ((mDataList.size() == 0 && data.size() > 0) ||
+                (mDataList.size() > 0 && data.size() == 0)) {
+            super.setDataCollection(data);
+            notifyDataSetChanged();
+        } else {
+            mDiffCallback.setNewList(data);
+            DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(mDiffCallback, false);
+            super.setDataCollection(data);
+            diffResult.dispatchUpdatesTo(new ListUpdateCallback() {
+                @Override
+                public void onInserted(int position, int count) {
+                    notifyItemRangeInserted(getHeadersCount() + position, count);
+                }
+
+                @Override
+                public void onRemoved(int position, int count) {
+                    notifyItemRangeRemoved(getHeadersCount() + position, count);
+                }
+
+                @Override
+                public void onMoved(int fromPosition, int toPosition) {
+                    notifyItemMoved(getHeadersCount() + fromPosition, getHeadersCount() + toPosition);
+                }
+
+                @Override
+                public void onChanged(int position, int count, @Nullable Object payload) {
+                    notifyItemRangeChanged(getHeadersCount() + position, count, null);
+                }
+            });
+        }
     }
 
     MessageDiffCallBack mDiffCallback = new MessageDiffCallBack();

@@ -46,7 +46,7 @@ public class PublicServiceRichContentMessageProvider extends BaseMessageItemProv
                     .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                     .into((ImageView) holder.getView(R.id.rc_img));
         }
-        String time = formatDate(uiMessage.getReceivedTime(), "MM月dd日 HH:mm");
+        String time = formatDate(uiMessage.getReceivedTime(), holder.getContext().getString(R.string.rc_date_format));
         holder.setText(R.id.rc_time, time);
     }
 

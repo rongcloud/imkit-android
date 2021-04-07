@@ -45,6 +45,7 @@ import io.rong.imkit.event.actionevent.SendEvent;
 import io.rong.imkit.event.actionevent.SendMediaEvent;
 import io.rong.imkit.event.uievent.InputBarEvent;
 import io.rong.imkit.event.uievent.PageEvent;
+import io.rong.imkit.event.uievent.ScrollToEndEvent;
 import io.rong.imkit.event.uievent.ShowLongClickDialogEvent;
 import io.rong.imkit.event.uievent.SmoothScrollEvent;
 import io.rong.imkit.event.uievent.ToastEvent;
@@ -504,7 +505,7 @@ public class MessageViewModel extends AndroidViewModel implements MessageEventLi
         int insertPosition = findPositionBySendTime(uiMessage.getMessage().getSentTime());
         mUiMessages.add(insertPosition, uiMessage);
         mUiMessageLiveData.setValue(mUiMessages);
-        executePageEvent(new SmoothScrollEvent(mUiMessages.size() - 1));
+        executePageEvent(new ScrollToEndEvent());
     }
 
     public UiMessage mapUIMessage(Message message) {
@@ -765,7 +766,7 @@ public class MessageViewModel extends AndroidViewModel implements MessageEventLi
             if (position == -1) {
                 mUiMessages.add(mapUIMessage(msg));
                 mUiMessageLiveData.setValue(mUiMessages);
-                executePageEvent(new SmoothScrollEvent(mUiMessages.size() - 1));
+                executePageEvent(new ScrollToEndEvent());
             }
         }
     }

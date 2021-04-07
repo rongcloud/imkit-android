@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -45,10 +46,12 @@ import io.rong.imkit.conversation.extension.RongExtensionViewModel;
 import io.rong.imkit.conversation.messgelist.processor.IConversationUIRenderer;
 import io.rong.imkit.conversation.messgelist.viewmodel.MessageItemLongClickBean;
 import io.rong.imkit.conversation.messgelist.viewmodel.MessageViewModel;
+import io.rong.imkit.conversationlist.ConversationListAdapter;
 import io.rong.imkit.event.Event;
 import io.rong.imkit.event.uievent.PageDestroyEvent;
 import io.rong.imkit.event.uievent.PageEvent;
 import io.rong.imkit.event.uievent.ScrollEvent;
+import io.rong.imkit.event.uievent.ScrollToEndEvent;
 import io.rong.imkit.event.uievent.ShowLongClickDialogEvent;
 import io.rong.imkit.event.uievent.ShowWarningDialogEvent;
 import io.rong.imkit.event.uievent.SmoothScrollEvent;
@@ -72,15 +75,16 @@ import io.rong.imlib.model.Conversation;
 public class ConversationFragment extends Fragment implements OnRefreshListener, View.OnClickListener, OnLoadMoreListener, IViewProviderListener<UiMessage> {
     private final String TAG = ConversationFragment.class.getSimpleName();
     private static final int REQUEST_MSG_DOWNLOAD_PERMISSION = 1000;
-    SmartRefreshLayout mRefreshLayout;
-    RecyclerView mList;
-    LinearLayoutManager mLinearLayoutManager;
-    MessageListAdapter mAdapter;
-    MessageViewModel mMessageViewModel;
-    RongExtensionViewModel mRongExtensionViewModel;
-    RongExtension mRongExtension;
-    TextView mNewMessageNum;
-    TextView mUnreadHistoryMessageNum;
+    protected SmartRefreshLayout mRefreshLayout;
+
+    protected RecyclerView mList;
+    protected LinearLayoutManager mLinearLayoutManager;
+    protected MessageListAdapter mAdapter;
+    protected MessageViewModel mMessageViewModel;
+    protected RongExtensionViewModel mRongExtensionViewModel;
+    protected RongExtension mRongExtension;
+    protected TextView mNewMessageNum;
+    protected TextView mUnreadHistoryMessageNum;
     // 开启合并转发的选择会话界面
     public static final int REQUEST_CODE_FORWARD = 104;
     private LinearLayout mNotificationContainer;
@@ -88,6 +92,10 @@ public class ConversationFragment extends Fragment implements OnRefreshListener,
     private String mTargetId;
     private Bundle mBundle;
     private Conversation.ConversationType mConversationType;
+
+    {
+        mAdapter = onResolveAdapter();
+    }
 
     /**
      * findId，绑定监听
@@ -399,10 +407,12 @@ public class ConversationFragment extends Fragment implements OnRefreshListener,
                 if (!TextUtils.isEmpty(msg)) {
                     Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
                 }
+            } else if (event instanceof ScrollToEndEvent) {
+                mList.scrollToPosition(mAdapter.getItemCount() - 1);
             } else if (event instanceof ScrollEvent) {
-                mList.scrollToPosition(((ScrollEvent) event).getPosition());
+                mList.scrollToPosition(mAdapter.getHeadersCount() + ((ScrollEvent) event).getPosition());
             } else if (event instanceof SmoothScrollEvent) {
-                mList.scrollToPosition(((SmoothScrollEvent) event).getPosition());
+                mList.scrollToPosition(mAdapter.getHeadersCount() + ((SmoothScrollEvent) event).getPosition());
             } else if (event instanceof ShowLongClickDialogEvent) {
                 final MessageItemLongClickBean bean = ((ShowLongClickDialogEvent) event).getBean();
                 final List<MessageItemLongClickAction> messageItemLongClickActions = bean.getMessageItemLongClickActions();
@@ -608,5 +618,43 @@ public class ConversationFragment extends Fragment implements OnRefreshListener,
         if (mRongExtensionViewModel != null) {
             mRongExtensionViewModel.collapseExtensionBoard();
         }
+    }
+
+    /**
+     * 获取 adapter. 可复写此方法实现自定义 adapter.
+     *
+     * @return 会话列表 adapter
+     */
+    protected MessageListAdapter onResolveAdapter() {
+        MessageListAdapter adapter = new MessageListAdapter(this);
+        return adapter;
+    }
+
+    /**
+     * @param view 自定义列表 header view
+     */
+    public void addHeaderView(View view) {
+        mAdapter.addHeaderView(view);
+    }
+
+    /**
+     * @param view 自定义列表 footer view
+     */
+    public void addFooterView(View view) {
+        mAdapter.addFootView(view);
+    }
+
+    /**
+     * @param view 自定义列表 空数据 view
+     */
+    public void setEmptyView(View view) {
+        mAdapter.setEmptyView(view);
+    }
+
+    /**
+     * @param emptyId 自定义列表 空数据的 LayoutId
+     */
+    public void setEmptyView(@LayoutRes int emptyId) {
+        mAdapter.setEmptyView(emptyId);
     }
 }

@@ -82,8 +82,6 @@ public class UnReadMessageManager extends RongIMClient.OnReceiveMessageWrapperLi
     public void onSyncConversationReadStatus(Conversation.ConversationType type, String targetId) {
         syncUnreadCount();
     }
-
-
     private static class SingletonHolder {
         static UnReadMessageManager sInstance = new UnReadMessageManager();
     }
